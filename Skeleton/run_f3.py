@@ -62,42 +62,42 @@ def lnlike_cc(theta):
 
 def lnlike_sn(theta):
     m, b, beta, gamma = theta
-    mb_teor = f3tp.distance_modulus(z_p,H0,m,w) + M
+    mb_teor = f3tp.distance_modulus(z_p,H0,m,b) + M
     delta = mb_teor - mb_p
     likk = -0.5*np.dot(delta,np.dot(icov_pantheon,delta))
     return likk
 
 def lnlike_6dF(theta):
     m, b, beta, gamma = theta
-    delta = f3tp.rdoverDV(z_rdv,H0,m,w) - rdv
+    delta = f3tp.rdoverDV(z_rdv,H0,m,b) - rdv
     return -0.5*np.sum(delta**2/erdv**2) + np.log(erdv**2)
 def lnlike_SDSS7(theta):
     m, b, beta, gamma = theta
-    delta = f3tp.DVoverrd(z_dv,H0,m,w,r_fid=r_fiddr7) - dv
+    delta = f3tp.DVoverrd(z_dv,H0,m,b,r_fid=r_fiddr7) - dv
     return -0.5*np.sum(delta**2/edv**2) + np.log(edv**2)
 def lnlike_BAO2(theta):
     m, b, beta, gamma = theta
-    delta = np.array([f3tp.DVoverrd(z_dv,H0,m,w,r_fid=r_fiddr7) - dv,f3tp.rdoverDV(z_rdv,H0,m,w) - rdv])
+    delta = np.array([f3tp.DVoverrd(z_dv,H0,m,b,r_fid=r_fiddr7) - dv,f3tp.rdoverDV(z_rdv,H0,m,b) - rdv])
     err = np.array([edv,erdv])
     return -0.5*np.sum((delta**2/edv**2) + np.log(edv**2))
 def lnlike_BAO1(theta):
     m, b, beta, gamma = theta
-    deltadm = f3tp.DMoverrd(z_dm,H0,m,w,r_fid=rfiddr12) - dm
-    deltah = f3tp.Hoverrd(z_h,H0,m,w,r_fid=rfiddr12) - h
+    deltadm = f3tp.DMoverrd(z_dm,H0,m,b,r_fid=rfiddr12) - dm
+    deltah = f3tp.Hoverrd(z_h,H0,m,b,r_fid=rfiddr12) - h
     delta = np.array([deltadm[0],deltah[0],deltadm[1],deltah[1],deltadm[2],deltah[2]])
     return -0.5*np.dot(delta, np.dot(icov_bao,delta))
 def lnlike_BAO(theta):
     return lnlike_BAO1(theta) + lnlike_BAO2(theta)
 def lnlike_qso(theta):
     m, b, beta, gamma = theta
-    mu_teor = f3tp.distance_modulus(z_qso,H0,m,w)
+    mu_teor = f3tp.distance_modulus(z_qso,H0,m,b)
     delta = mu_teor - mu_qso
     likk = -0.5*np.sum((delta**2/emu_qso**2)+np.log(emu_qso**2))
     return likk
 
 def lnlike_qso_flux(theta):
     m, b, beta, gamma = theta
-    logdl_teor = np.log10(f3tp.D_L(z_q,H0,m,w))
+    logdl_teor = np.log10(f3tp.D_L(z_q,H0,m,b))
     Psi = beta + gamma*(fuv+27.5)+2*(gamma-1)*(logdl_teor - 28.5)
     si = efuv**2 + gamma**2*efx + np.exp(2*np.log(0.21))
     likk = -0.5*np.sum((fx-Psi)**2/si**2 - np.log(si**2))
