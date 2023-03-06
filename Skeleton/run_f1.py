@@ -129,5 +129,5 @@ for i in range(len(priors)):
     print("Calculating "+priors[i][-1])
     H0 = float(priors[i][0]); M = float(priors[i][1])
     p0 = [np.array(initial) + 1e-5 * np.random.randn(len(initial)) for i in range(nwalkers)]
-    backend = emcee.backends.HDFBackend("Chains/Final/f1/Lusso"+priors[i][-1]+".h5")
+    backend = emcee.backends.HDFBackend("Chains/Final/f1/Lusso/"+priors[i][-1]+".h5")
     sampler, pos, prob, state = main.main(p0,nwalkers,100000,len(initial),lnprob,backend=backend)
