@@ -18,8 +18,8 @@ icov_cc = np.linalg.inv(matrix_cc)
 #Supernovae
 from call_data import PANTHEON, PANTHEON_BINNED
 from call_covariance import COV_PANTHEON, COV_PANTHEON_BINNED
-z_p, mb_p, emb_p = PANTHEON_BINNED()
-matrix_pantheon = COV_PANTHEON_BINNED()
+z_p, mb_p, emb_p = PANTHEON()
+matrix_pantheon = COV_PANTHEON()
 matrix = matrix_pantheon + np.diag(emb_p**2)
 S = np.trace(matrix)
 icov_pantheon = np.linalg.inv(matrix)
