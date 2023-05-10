@@ -39,25 +39,10 @@ def zd(H0,m):
     mult = (1 + b1*obh**b2)
     zd = (arriba/abajo)*mult
     return zd
-def r_d(H0,m): #in Mpc 
-    """
-    Using the aproximation in Mpc given by Eistenstein & Hu (1998)
-    """
-    wb = 0.0224
-    Tcmb = 2.75 #in k
+def r_d(H0,m): #in Mpc
     h = H0/100
-    wm = m*0.7**2
-    zeq = 2.50e4*wm*(Tcmb/2.7)**(-4)
-    keq = 7.46e-2*wm*(Tcmb/2.7)**(-2)
-    Rd = 31.5*wb*(Tcmb/2.7)**(-4)*(1e3/zd(H0,m))
-    Req = 31.5*wb*(Tcmb/2.7)**(-4)*(1e3/zeq)
-    return 2./3./keq*(6./Req)**0.5 *np.log((np.sqrt(1 + Rd) + np.sqrt(Rd+Req))/(1 + Req**0.5))
-#def r_d2(H0,m):
-#    h = H0/100
-#    wm = m*h**2;wb = 0.0224
-#    a1 = 0.00785436; a2 = 0.177084; a3 = 0.00912388
-#    a4 = 0.618711; a5 = 11.9611; a6 = 2.81343; a7 = 0.784719
-#    return 1/(a1*wb**a2+a3*wm**a4+a5*wb**a6*wm**a7)
+    return 153.53*np.power((0.0224/0.02273),-0.134)*np.power((m*h**2)/(0.1326),-0.255)
+
 def DMoverrd(z,H0,m,r_fid = 147.78):
     return D_M(z,H0,m)*(r_fid/r_d(H0,m))
 def DVoverrd(z,H0,m,r_fid=147.78):
@@ -66,3 +51,5 @@ def Hoverrd(z,H0,m,r_fid=147.78):
     return H(z,H0,m)*(r_fid/r_d(H0,m))
 def rdoverDV(z,H0,m):
     return r_d(H0,m)/D_V(z,H0,m)
+def DAoverrd(z,H0,m,r_fid=147.78):
+    return D_A(z,H0,m)*(r_fid/r_d(H0,m))
