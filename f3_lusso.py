@@ -122,12 +122,12 @@ def lnlike_qso_flux(theta):
     H0, m, M, b, beta = theta
     gamma = 0.702
     logdl_teor = np.log10(f3tp.D_L(z_q,H0,m,b))
-    Psi = beta + gamma*(fuv) + 2*(gamma-1)*logdl_teor
+    Psi = 1/(2*(gamma-1))*(fx -gamma*fuv) -beta/(2*(gamma-1))
     #Psi = beta + gamma*(fuv+27.5)+2*(gamma-1)*(logdl_teor - 28.5)
     #Psi = beta + (gamma -1)*np.log10(4*np.pi) + gamma*fuv + 2*(gamma -1)*logdl_teor
     #si = efuv**2 + gamma**2*efx**2 + np.exp(2*np.log(0.21))
-    si = fx**2 + 0.21**2
-    likk = -0.5*np.sum((fx-Psi)**2/si**2 + np.log(si**2))
+    si = efx**2 + gamma**2*efuv + np.exp(2*np.log(0.21))
+    likk = -0.5*np.sum((fx-Psi)**2/si + np.log(si))
     return likk
 
 def lnlike_light(theta):
