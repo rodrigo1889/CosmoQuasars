@@ -22,8 +22,8 @@ def QUASARS():
 def QUASARS_FLUX():
 	data = pd.DataFrame(pd.read_csv("Full_data/Quasars.csv",sep=",")) 
 	data = data.sort_values(by="z")
-	data = data[data["z"]>0.7]
-	sub = data[data["gammax"]>2.2]
+	#data = data[data["z"]>0.7]
+	sub = data
 	#data.columns = ["z","Fx","Fuv","eFx","eFuv"]
 	#z = data["z"].to_numpy(); fx = data["Fx"].to_numpy(); fuv = data["Fuv"].to_numpy(); efx = data["eFx"].to_numpy(); efuv = data["eFuv"].to_numpy()
 	z = sub["z"].to_numpy(); fx = sub["logFx"].to_numpy();efx = sub["e_logFx"].to_numpy();fuv= sub["logFuv"].to_numpy(); efuv = sub["e_logFuv"].to_numpy()
