@@ -31,9 +31,9 @@ icov_bao = np.linalg.inv(bao_matrix)
 
 
 #QSO
-from call_data import QUASARS_FLUX, QUASARS_v2
+from call_data import QUASARS_FLUX, QUASARS_v2, QUASARS_BINNED3
 z_qso, mu_qso, emu_qso = QUASARS_v2()
-z_q, fx, fuv, efx, efuv = QUASARS_FLUX()
+z_q, fx, fuv, efx, efuv, logdl, elogdl = QUASARS_FLUX()
 
 
 
@@ -120,14 +120,10 @@ def lnlike_qso(theta):
 
 def lnlike_qso_flux(theta):
     H0, m, M, b, beta = theta
-    gamma = 0.702
-    logdl_teor = np.log10(f1tp.D_L(z_q,H0,m,b))
-    Psi = beta + gamma*(fuv) + 2*(gamma-1)*logdl_teor
-    #Psi = beta + gamma*(fuv+27.5)+2*(gamma-1)*(logdl_teor - 28.5)
-    #Psi = beta + (gamma -1)*np.log10(4*np.pi) + gamma*fuv + 2*(gamma -1)*logdl_teor
-    #si = efuv**2 + gamma**2*efx**2 + np.exp(2*np.log(0.21))
-    si = fx**2 + 0.21**2
-    likk = -0.5*np.sum((fx-Psi)**2/si**2 + np.log(si**2))
+    mu_teor = f1tp.distance_modulus(z_q,H0,m,b)
+    mu_qso = 5*logdl + 5*beta
+    si = efx**2 + 0.702**2*efuv**2 + np.exp(2*np.log(0.21))
+    likk = -0.5*np.sum((mu_teor-mu_qso)**2/si**2 + np.log(si**2))
     return likk
 
 def lnlike_light(theta):
@@ -142,7 +138,7 @@ def lnprior(theta):
     if 50 < H0 < 80 and 0.0 < m <= 0.9 and -30.0 < M < 0.0 and -2 < b < 2 and -20 < beta < 20:
         return 0.0
     return -np.inf
-initial = np.array([70,0.3,0.1,-19.0,3.0])
+initial = np.array([70,0.3,-19.0,0.1,3.0])
 nwalkers= 20
 
 for i in range(len(H0s)):
@@ -155,5 +151,5 @@ for i in range(len(H0s)):
             return -np.inf
         return lp + lnlike(theta)
     p0 = [np.array(initial) + 1e-5 * np.random.randn(len(initial)) for i in range(nwalkers)]
-    backend = emcee.backends.HDFBackend("Chains/Draft/f1/Light/"+H0s[i][-1]+".h5")
+    backend = emcee.backends.HDFBackend("Chains/Draft/f1/LightLusso/"+H0s[i][-1]+".h5")
     sampler = main.main(p0,nwalkers,100000,len(initial),lnprob,backend=backend)
