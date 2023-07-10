@@ -23,11 +23,12 @@ def QUASARS_FLUX():
 	data = pd.DataFrame(pd.read_csv("Full_data/Quasars.csv",sep=",")) 
 	data = data.sort_values(by="z")
 	#data = data[data["z"]>0.7]
-	sub = data
+	sub = data[data["gammax"]>2.2]
+	#sub = data
 	#data.columns = ["z","Fx","Fuv","eFx","eFuv"]
 	#z = data["z"].to_numpy(); fx = data["Fx"].to_numpy(); fuv = data["Fuv"].to_numpy(); efx = data["eFx"].to_numpy(); efuv = data["eFuv"].to_numpy()
-	z = sub["z"].to_numpy(); fx = sub["logFx"].to_numpy();efx = sub["e_logFx"].to_numpy();fuv= sub["logFuv"].to_numpy(); efuv = sub["e_logFuv"].to_numpy()
-	return z, fx, fuv, efx, efuv
+	z = sub["z"].to_numpy(); fx = sub["logFx"].to_numpy();efx = sub["e_logFx"].to_numpy();fuv= sub["logFuv"].to_numpy(); efuv = sub["e_logFuv"].to_numpy(); dl = sub["logdl"].to_numpy(); edl = sub["elogdl"].to_numpy()
+	return z, fx, fuv, efx, efuv,dl,edl
 	#return z
 
 def QUASARS_v2():
@@ -89,4 +90,5 @@ def QUASARS_BINNED2():
 
 def QUASARS_BINNED3():
     data = pd.DataFrame(pd.read_csv("Binned_data/Quasars3.csv"))
-    return data["z"].to_numpy(), data["DM"].to_numpy(), data["eDM"].to_numpy()
+    #return data["z"].to_numpy(), data["fx"].to_numpy(), data["e_fx"].to_numpy(), data["fuv"].to_numpy(),
+    return data["z"].to_numpy(), data["fx"].to_numpy(), data["e_fx"].to_numpy(), data["fuv"].to_numpy(), data["e_fuv"].to_numpy(),data["dl"].to_numpy(),data["err_mean"].to_numpy()
