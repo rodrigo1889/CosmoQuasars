@@ -12,7 +12,7 @@ def COV_PANTHEON():
     return matrix
 
 def COV_BAO():
-    data = np.genfromtxt("Covariance/M.txt")
+    data = np.genfromtxt("Covariance/bao.txt")
     return data
 
 def COV_BAO2():
@@ -23,6 +23,14 @@ def COV_PANTHEON_PLUS():
     data = np.genfromtxt("Covariance/STAS+SYS.txt")
     mat = data[1:].reshape((1701,1701))
     return mat
+
+def COV_CMB_DISTANCE():
+    data = pd.DataFrame(pd.read_csv("Covariance/cmb_distance.csv"))
+    return data.to_numpy()
+
+def COV_S8():
+    data = pd.DataFrame(pd.read_csv("Covariance/rsd.txt",header=None,sep=" "))
+    return data.to_numpy()
 
 #BINNED DATA
 def COV_PANTHEON_BINNED():

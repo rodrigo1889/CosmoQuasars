@@ -54,20 +54,65 @@ def BAO_H():
 
 def GRB():
     data = pd.DataFrame(pd.read_csv("Full_data/grb.csv"))
-    z = data["Redshift"].to_numpy(); mu = data["μ"].to_numpy(); emu = data["σ μ"].to_numpy()
-    return z,mu,emu
+    z = data["z"].to_numpy(); Ep = data["Ep"].to_numpy(); e_Ep = data["e_Ep"].to_numpy(); Eiso = data["E_iso"].to_numpy(); e_Eiso = data["e_Eiso"].to_numpy()
+    return z,Ep,e_Ep,Eiso,e_Eiso
 
 def PANTHEON_PLUS():
     data = pd.DataFrame(pd.read_csv("Full_data/Pantheonplus.txt"))
     data = data.sort_values(by="zCMB")
-    zcmb = data["zCMB"].to_numpy(); mb = data["m_b_corr"].to_numpy(); emb = data["m_b_corr_err_DIAG"].to_numpy();
-    return zcmb,mb, emb
+    zcmb = data["zCMB"].to_numpy(); mb = data["m_b_corr"].to_numpy(); emb = data["m_b_corr_err_DIAG"].to_numpy(); is_calibrator = data["IS_CALIBRATOR"].to_numpy(); d_ceph = data["CEPH_DIST"].to_numpy()
+    return zcmb,mb, emb, is_calibrator, d_ceph
 
 def VHZ():
     vhz = pd.DataFrame(pd.read_csv("Full_data/VHZ_mock.csv"))
     zvhz = vhz["z1"]; mbvhz = vhz["mb_corr"]; embvhz = vhz["emb"]
     return zvhz, mbvhz, embvhz
 
+def RVM():
+    data = pd.DataFrame(pd.read_csv("Full_data/rvmapping.csv"))
+    z_rvm = data["z"].to_numpy(); DLrvm = data["D_L"].to_numpy(); e_DLrvm = data["eD_L"].to_numpy()
+    return z_rvm, DLrvm, e_DLrvm
+
+def HII():
+    data = pd.DataFrame(pd.read_csv("Full_data/hii.csv"))
+    data = data.sort_values(by="redshift")
+    z = data["redshift"].to_numpy();logsigma=data["log sigma_corr"].to_numpy();err_logsigma = data["err_log sigma_corr"].to_numpy();logfhb = data["log fHb_corr"].to_numpy(); errlogfhb = data["err_log fHb_corr"].to_numpy()
+    return z,logsigma,err_logsigma,logfhb,errlogfhb
+
+def QSO_ANG():
+    data = pd.DataFrame(pd.read_csv("FUll_data/Qso-angular.csv"))
+    z = data["z"].to_numpy(); theta = data["theta"].to_numpy(); s_theta = data["s_theta"].to_numpy()
+    return z, theta, s_theta
+
+def fs8_eBOSS():
+    data = pd.DataFrame(pd.read_csv("Full_data/rsd_eBoss.csv"))
+    data = data.sort_values(by="z")
+    z = data["z"].to_numpy(); fs8 = data["fs8"].to_numpy(); efs8 = data["efs8"].to_numpy()
+    return z, fs8, efs8
+
+def fs8_Wigg():
+    data = pd.DataFrame(pd.read_csv("Full_data/rsd_Wigg.csv"))
+    #data = data.sort_values(by="z")
+    z = data["z"].to_numpy(); fs8 = data["fs8"].to_numpy(); efs8 = data["efs8"].to_numpy()
+    return z, fs8, efs8
+
+def fs8_1():
+    data = pd.DataFrame(pd.read_csv("Full_data/rsd.csv"))
+    data = data.sort_values(by="z")
+    z = data["z"].to_numpy(); fs8 = data["fs8"].to_numpy(); efs8 = data["efs8"].to_numpy()
+    return z, fs8, efs8
+
+def fs8_2():
+    data = pd.DataFrame(pd.read_csv("Full_data/rsd2.csv"))
+    data = data.sort_values(by="z")
+    z = data["z"].to_numpy(); fs8 = data["fs8"].to_numpy(); efs8 = data["efs8"].to_numpy()
+    return z, fs8, efs8
+
+def fs8_3():
+    data = pd.DataFrame(pd.read_csv("Full_data/rsd3.csv"))
+    data = data.sort_values(by="z")
+    z = data["z"].to_numpy(); fs8 = data["fs8"].to_numpy(); efs8 = data["efs8"].to_numpy()
+    return z, fs8, efs8
 
 ### BINNED DATA SETS
 
